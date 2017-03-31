@@ -89,8 +89,8 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 	private CachedTransition promptTextDownTransition;
 	private Timeline promptTextColorTransition;
 	private Paint oldPromptTextFill;
-	
-	
+
+
 	BooleanBinding usePromptText = Bindings.createBooleanBinding(()->{
 		String txt = getSkinnable().getText();
 		String promptTxt = getSkinnable().getPromptText();
@@ -111,9 +111,9 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			promptTextColorTransition.playFromStart();
 		}
 	};
-	
-	
-	
+
+
+
 
 	public JFXTextFieldSkin(JFXTextField field) {
 		super(field);
@@ -124,10 +124,10 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 		field.setAlignment(Pos.TOP_LEFT);
 
 		errorLabel.getStyleClass().add("errorLabel");
-		errorLabel.setWrapText(true);		
+		errorLabel.setWrapText(true);
 
 		AnchorPane errorLabelContainer = new AnchorPane();
-		errorLabelContainer.getChildren().add(errorLabel);		
+		errorLabelContainer.getChildren().add(errorLabel);
 
 		promptContainer = new StackPane();
 		this.getChildren().add(promptContainer);
@@ -136,10 +136,10 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 		errorContainer.getChildren().add(errorLabelContainer);
 		errorContainer.getChildren().add(errorIcon);
 		HBox.setHgrow(errorLabelContainer, Priority.ALWAYS);
-		errorIcon.setTranslateY(3);		
+		errorIcon.setTranslateY(3);
 		errorContainer.setSpacing(10);
 		errorContainer.setTranslateY(25);
-		errorContainer.setVisible(false);		
+		errorContainer.setVisible(false);
 		errorContainer.setOpacity(0);
 
 		this.getChildren().add(errorContainer);
@@ -167,7 +167,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 				errorAnimation.setOnFinished(finish->new Timeline(new KeyFrame(Duration.millis(160),new KeyValue(errorContainer.opacityProperty(), 1, Interpolator.EASE_BOTH))).play());
 				currentFieldHeight = newHeight;
 				oldErrorLabelHeight = newVal.doubleValue();
-			}	
+			}
 		});
 		errorContainer.visibleProperty().addListener((o,oldVal,newVal)->{
 			// show the error label if it's not shown
@@ -179,13 +179,13 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			if(newVal){
 				promptText.visibleProperty().unbind();
 				promptText.visibleProperty().set(true);
-				getSkinnable().focusedProperty().addListener(focusPromptTextListener);		
+				getSkinnable().focusedProperty().addListener(focusPromptTextListener);
 			}else{
 				promptText.visibleProperty().bind(usePromptText);
-				getSkinnable().focusedProperty().removeListener(focusPromptTextListener);	
+				getSkinnable().focusedProperty().removeListener(focusPromptTextListener);
 			}
 		});
-		
+
 		field.activeValidatorProperty().addListener((o,oldVal,newVal)->{
 			if(hideErrorAnimation!=null && hideErrorAnimation.getStatus().equals(Status.RUNNING))
 				hideErrorAnimation.stop();
@@ -195,7 +195,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 					showError(newVal);
 				});
 				hideErrorAnimation.play();
-			}else{				
+			}else{
 				hideError();
 			}
 		});
@@ -204,7 +204,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			if (newVal) focus();
 			else {
 				if(transition!=null) transition.stop();
-				focusedLine.setOpacity(0);	
+				focusedLine.setOpacity(0);
 			}
 		});
 
@@ -226,11 +226,11 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 		return super.computeMinHeight(width, topInset, rightInset, bottomInset + 1, leftInset);
 	}
 
-	@Override 
+	@Override
 	protected void layoutChildren(final double x, final double y, final double w, final double h) {
 		super.layoutChildren(x, y, w, h);
 
-		if(invalid){			
+		if(invalid){
 			textPane = ((Pane)this.getChildren().get(0));
 			textPane.prefWidthProperty().bind(getSkinnable().prefWidthProperty());
 			errorLabel.maxWidthProperty().bind(Bindings.createDoubleBinding(()->textPane.getWidth()/1.14, textPane.widthProperty()));
@@ -275,7 +275,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			focusedLine.translateXProperty().bind(Bindings.createDoubleBinding(()-> -focusedLine.getStrokeWidth(), focusedLine.strokeWidthProperty()));
 
 
-			if(textPane.getChildren().get(0) instanceof Text){				
+			if(textPane.getChildren().get(0) instanceof Text){
 				promptText = textPane.getChildren().get(0);
 				promptTextUpTransition = new CachedTransition(textPane, new Timeline(
 						new KeyFrame(Duration.millis(1300),
@@ -285,14 +285,14 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 								new KeyValue(promptText.scaleYProperty(),0.85 , Interpolator.EASE_BOTH),
 								new KeyValue(promptTextFill, focusedLine.getStroke(), Interpolator.EASE_BOTH)))){{ setDelay(Duration.millis(0)); setCycleDuration(Duration.millis(300)); }};
 
-				promptTextColorTransition =  new Timeline(new KeyFrame(Duration.millis(300),new KeyValue(promptTextFill, focusedLine.getStroke(), Interpolator.EASE_BOTH)));				
+				promptTextColorTransition =  new Timeline(new KeyFrame(Duration.millis(300),new KeyValue(promptTextFill, focusedLine.getStroke(), Interpolator.EASE_BOTH)));
 
 				promptTextDownTransition = new CachedTransition(textPane, new Timeline(
-								new KeyFrame(Duration.millis(1300), 
+								new KeyFrame(Duration.millis(1300),
 										new KeyValue(promptText.translateYProperty(), 0, Interpolator.EASE_BOTH),
 										new KeyValue(promptText.translateXProperty(), 0, Interpolator.EASE_BOTH),
 										new KeyValue(promptText.scaleXProperty(),1 , Interpolator.EASE_BOTH),
-										new KeyValue(promptText.scaleYProperty(),1 , Interpolator.EASE_BOTH))					 
+										new KeyValue(promptText.scaleYProperty(),1 , Interpolator.EASE_BOTH))
 								)){{ setDelay(Duration.millis(0)); setCycleDuration(Duration.millis(300)); }};
 
 				floatLabel.addListener((o,oldVal,newVal)->{
@@ -302,18 +302,18 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 						promptTextFill.set(oldPromptTextFill);
 						promptTextDownTransition.stop();
 						promptTextUpTransition.play();
-					} else{						
+					} else{
 						promptTextUpTransition.stop();
 						promptTextDownTransition.play();
 					}
 				});
 
-				promptContainer.getChildren().add((Text)textPane.getChildren().get(0));	
-				
+				promptContainer.getChildren().add((Text)textPane.getChildren().get(0));
+
 				if(((JFXTextField)getSkinnable()).isLabelFloat()){
 					promptText.visibleProperty().unbind();
 					promptText.visibleProperty().set(true);
-					getSkinnable().focusedProperty().addListener(focusPromptTextListener);					
+					getSkinnable().focusedProperty().addListener(focusPromptTextListener);
 				}
 			}
 
@@ -334,7 +334,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			if(getSkinnable().isFocused()) focus();
 
 			invalid = false;
-		}		
+		}
 
 	}
 
@@ -350,9 +350,9 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			focusedLine.endXProperty().unbind();
 			Timeline linesAnimation = new Timeline(
 					new KeyFrame(
-							Duration.ZERO,       
+							Duration.ZERO,
 							new KeyValue(focusedLine.startXProperty(), mid ,Interpolator.EASE_BOTH),
-							new KeyValue(focusedLine.opacityProperty(), 0 ,Interpolator.EASE_BOTH),									
+							new KeyValue(focusedLine.opacityProperty(), 0 ,Interpolator.EASE_BOTH),
 							new KeyValue(focusedLine.endXProperty(), mid ,Interpolator.EASE_BOTH)
 							),
 					new KeyFrame(
@@ -370,13 +370,13 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 			transition.getChildren().add(linesAnimation);
 			transition.setOnFinished((finish)->{
 				if(transition.getStatus().equals(Status.STOPPED))
-					focusedLine.endXProperty().bind(textPane.widthProperty());	
+					focusedLine.endXProperty().bind(textPane.widthProperty());
 			});
 			if(getSkinnable().getText()==null || getSkinnable().getText().length() == 0){
 				if(!((JFXTextField)getSkinnable()).isLabelFloat()){
 					Timeline cursorAnimation = new Timeline(
 							new KeyFrame(
-									Duration.ZERO,       
+									Duration.ZERO,
 									new KeyValue(cursorPane.visibleProperty(), false ,Interpolator.EASE_BOTH),
 									new KeyValue(cursorPane.scaleXProperty(), 1 ,Interpolator.EASE_BOTH),
 									new KeyValue(cursorPane.translateXProperty(), 40 ,Interpolator.EASE_BOTH),
@@ -393,7 +393,7 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 									new KeyValue(cursorPane.opacityProperty(), 0 ,Interpolator.EASE_BOTH)
 									)
 
-							);				
+							);
 					transition.getChildren().add(cursorAnimation);
 				}
 			}
@@ -409,12 +409,12 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 		errorIcon.getChildren().clear();
 		if(awsomeIcon!=null){
 			errorIcon.getChildren().add(awsomeIcon);
-			StackPane.setAlignment(awsomeIcon, Pos.TOP_RIGHT);	
+			StackPane.setAlignment(awsomeIcon, Pos.TOP_RIGHT);
 		}
 		// init only once, to fix the text pane from resizing
 		if(initYlayout == -1){
 			textPane.setMaxHeight(textPane.getHeight());
-			initYlayout = textPane.getBoundsInParent().getMinY(); 
+			initYlayout = textPane.getBoundsInParent().getMinY();
 			initHeight = getSkinnable().getHeight();
 			currentFieldHeight = initHeight;
 		}
@@ -435,16 +435,16 @@ public class JFXTextFieldSkin extends TextFieldSkin{
 				}};
 	}
 
-	private void hideError(){	
+	private void hideError(){
 		if(heightChanged){
 			new Timeline(new KeyFrame(Duration.millis(160), new KeyValue(textPane.translateYProperty(), 0, Interpolator.EASE_BOTH))).play();
 			// reset the height of text field
-			new Timeline(new KeyFrame(Duration.millis(160), new KeyValue(getSkinnable().minHeightProperty(), initHeight, Interpolator.EASE_BOTH))).play();	
+			new Timeline(new KeyFrame(Duration.millis(160), new KeyValue(getSkinnable().minHeightProperty(), initHeight, Interpolator.EASE_BOTH))).play();
 			heightChanged = false;
 		}
 		// clear error label text
 		errorLabel.setText(null);
-		oldErrorLabelHeight = errorLabelInitHeight;		
+		oldErrorLabelHeight = errorLabelInitHeight;
 		// clear error icon
 		errorIcon.getChildren().clear();
 		// reset the height of the text field

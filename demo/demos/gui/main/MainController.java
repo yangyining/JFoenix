@@ -36,13 +36,13 @@ public class MainController {
 	@FXML private StackPane root;
 	@FXML private StackPane content;
 	@FXML private StackPane sideContent;
-	
+
 	@FXML private StackPane titleBurgerContainer;
 	@FXML private JFXHamburger titleBurger;
-	
-	@FXML private StackPane optionsBurger;	
+
+	@FXML private StackPane optionsBurger;
 	@FXML private JFXRippler optionsRippler;
-	
+
 	@FXML private JFXDrawer drawer;
 	@FXML private JFXPopup toolbarPopup;
 	@FXML private Label exit;
@@ -74,7 +74,7 @@ public class MainController {
 			counter = -1;
 		});
 
-		// init Popup 
+		// init Popup
 		toolbarPopup.setPopupContainer(root);
 		toolbarPopup.setSource(optionsRippler);
 		optionsBurger.setOnMouseClicked((e) -> {
@@ -88,7 +88,7 @@ public class MainController {
 
 		// create the inner flow and content
 		context = new ViewFlowContext();
-		// set the default controller 
+		// set the default controller
 		Flow innerFlow = new Flow(ButtonController.class);
 
 		flowHandler = innerFlow.createHandler(context);

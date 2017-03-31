@@ -12,30 +12,30 @@ import com.jfoenix.controls.JFXButton;
 
 public class ButtonDemo extends Application {
 
-	
+
 	@Override public void start(Stage stage) {
 
 		FlowPane main = new FlowPane();
 		main.setVgap(20);
 		main.setHgap(20);
-		
+
 		main.getChildren().add(new Button("Java Button"));
 		JFXButton jfoenixButton = new JFXButton("JFoenix Button");
 		main.getChildren().add(jfoenixButton);
-		
+
 		JFXButton button = new JFXButton("Raised Button".toUpperCase());
 		button.getStyleClass().add("button-raised");
 		main.getChildren().add(button);
-		
+
 		JFXButton button1 = new JFXButton("DISABLED");
 		button1.setDisable(true);
 		main.getChildren().add(button1);
-		
+
 		StackPane pane = new StackPane();
 		pane.getChildren().add(main);
 		StackPane.setMargin(main, new Insets(100));
 		pane.setStyle("-fx-background-color:WHITE");
-		
+
 		final Scene scene = new Scene(pane, 800, 200);
 		scene.getStylesheets().add(ButtonDemo.class.getResource("/resources/css/jfoenix-components.css").toExternalForm());
 		stage.setTitle("JFX Button Demo");
@@ -45,5 +45,5 @@ public class ButtonDemo extends Application {
 	}
 
 	public static void main(String[] args) { launch(args); }
-	
+
 }
